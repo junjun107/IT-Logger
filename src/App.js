@@ -6,6 +6,9 @@ import SearchBar from './components/Layout/SearchBar';
 import Logs from './components/logs/Logs';
 import Addbtn from './components/Layout/Addbtn';
 import AddLogModal from './components/logs/AddLogModal';
+import EditLogModal from './components/logs/EditLogModal';
+import AddTechModal from './components/techs/AddTechModal';
+import TechListModal from './components/techs/TechListModal';
 
 function App() {
   useEffect(() => {
@@ -19,6 +22,9 @@ function App() {
       <div className='container'>
         <Addbtn />
         <AddLogModal />
+        <EditLogModal />
+        <AddTechModal />
+        <TechListModal />
         <Logs />
       </div>
     </Fragment>
