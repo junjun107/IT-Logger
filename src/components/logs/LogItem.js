@@ -1,12 +1,11 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import Moment from 'react-moment';
+import PropTypes from 'prop-types';
 
 const LogItem = ({ log }) => {
   return (
     <li className='collection-item'>
       <div>
-        {/* link opens up a modal */}
         <a
           href='#edit-log-modal'
           className={`modal-trigger ${
@@ -17,9 +16,11 @@ const LogItem = ({ log }) => {
         </a>
         <br />
         <span className='grey-text'>
-          <span className='black-text'>TASK ID #{log.id}</span> Last updated by{' '}
+          <span className='black-text'>ID #{log.id}</span> last updated by{' '}
           <span className='black-text'>{log.tech}</span> on{' '}
-          <Moment format='YYYY/MM/DD hh:mm a'>{log.date}</Moment>
+          <Moment parse='YYYY-MM-DDTHH:mm:ss' format='MMMM Do, YYYY, h:mm a'>
+            {log.date}
+          </Moment>
         </span>
         <a href='#!' className='secondary-content'>
           <i className='material-icons grey-text'>delete</i>
@@ -28,9 +29,9 @@ const LogItem = ({ log }) => {
     </li>
   );
 };
+
 LogItem.propTypes = {
   log: PropTypes.object.isRequired,
-  // deleteLog: PropTypes.func.isRequired,
-  // setCurrent: PropTypes.func.isRequired,
 };
+
 export default LogItem;

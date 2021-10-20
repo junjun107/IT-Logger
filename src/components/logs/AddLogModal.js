@@ -1,18 +1,31 @@
 import React, { useState } from 'react';
+import { connect } from 'react-redux';
+import { addLog } from '../../actions/logActions';
+import PropTypes from 'prop-types';
+
 import M from 'materialize-css/dist/js/materialize.min.js'; //javascript
 
-const AddLogModal = () => {
+const AddLogModal = ({ addLog }) => {
   const [message, setMessage] = useState('');
   const [attention, setAttention] = useState(false);
   const [tech, setTech] = useState('');
 
   const onSubmit = () => {
-    //error checking for empty fileds
     if (message === '' || tech === '') {
-      M.toast({ html: 'Cannot submit empty form. Please enter all fields.' });
+      M.toast({ html: 'Please enter a message and select a tech' });
     } else {
-      console.log(message, tech, attention);
-      //clear fields
+      const newLog = {
+        message,
+        attention,
+        tech,
+        date: new Date(),
+      };
+
+      addLog(newLog);
+      console.log(newLog);
+      M.toast({ html: `Log added by ${tech}` });
+
+      // then we clear the fields
       setMessage('');
       setTech('');
       setAttention(false);
@@ -21,10 +34,9 @@ const AddLogModal = () => {
 
   return (
     <div id='add-log-modal' className='modal' style={modalStyle}>
-      <div class='modal-content'>
+      <div className='modal-content'>
         <h4>Enter System Log</h4>
 
-        {/* form enter message */}
         <div className='row'>
           <div className='input-field'>
             <input
@@ -39,7 +51,6 @@ const AddLogModal = () => {
           </div>
         </div>
 
-        {/* select tech */}
         <div className='row'>
           <div className='input-field'>
             <select
@@ -49,16 +60,17 @@ const AddLogModal = () => {
               onChange={(e) => setTech(e.target.value)}
             >
               <option value='' disabled>
-                Select Technician{' '}
+                Select Technician
               </option>
               <option value='John Doe'>John Doe</option>
               <option value='Sam Smith'>Sam Smith</option>
-              <option value='Sara Wilson'>Sara Wilson</option>
+              <option value='Sara Wilson' disabled>
+                Sara Wilson
+              </option>
             </select>
           </div>
         </div>
 
-        {/* checkbox for attention  */}
         <div className='row'>
           <div className='input-field'>
             <p>
@@ -76,12 +88,12 @@ const AddLogModal = () => {
           </div>
         </div>
       </div>
-      {/* modal footer */}
+
       <div className='modal-footer'>
         <a
           href='#!'
           onClick={onSubmit}
-          className='waves-effect waves-light btn'
+          className='modal-close waves-effect blue btn'
         >
           Enter
         </a>
@@ -90,8 +102,13 @@ const AddLogModal = () => {
   );
 };
 
+AddLogModal.propTypes = {
+  addLog: PropTypes.func.isRequired,
+};
+
 const modalStyle = {
   width: '75%',
   height: '75%',
 };
-export default AddLogModal;
+
+export default connect(null, { addLog })(AddLogModal);
