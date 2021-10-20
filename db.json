@@ -1,15 +1,6 @@
 {
   "logs": [
     {
-      "id": 1
-    },
-    {
-      "id": 2
-    },
-    {
-      "id": 3
-    },
-    {
       "message": "hello",
       "attention": true,
       "tech": "John Doe",
