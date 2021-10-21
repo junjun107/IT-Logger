@@ -1,17 +1,38 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import M from 'materialize-css/dist/js/materialize.min.js'; //javascript
+import { connect } from 'react-redux';
+import { updateLog } from '../../actions/logActions';
 
-const EditLogModal = () => {
+const EditLogModal = ({ updateLog, current }) => {
   const [message, setMessage] = useState('');
   const [attention, setAttention] = useState(false);
   const [tech, setTech] = useState('');
+
+  //set form data to current data
+  useEffect(() => {
+    if (current) {
+      setMessage(current.message);
+      setAttention(current.attention);
+      setTech(current.tech);
+    }
+  }, [current]);
 
   const onSubmit = () => {
     //error checking for empty fileds
     if (message === '' || tech === '') {
       M.toast({ html: 'Cannot submit empty form. Please enter all fields.' });
     } else {
-      console.log(message, tech, attention);
+      //update log
+      const newLog = {
+        id: current.id,
+        message, //message: message
+        attention,
+        tech,
+        date: new Date(),
+      };
+      updateLog(newLog);
+      M.toast({ html: 'Log Updated' });
+
       //clear fields
       setMessage('');
       setTech('');
@@ -33,9 +54,6 @@ const EditLogModal = () => {
               value={message}
               onChange={(e) => setMessage(e.target.value)}
             />
-            <label htmlFor='message' className='active'>
-              Log Message
-            </label>
           </div>
         </div>
 
@@ -94,4 +112,8 @@ const modalStyle = {
   width: '75%',
   height: '75%',
 };
-export default EditLogModal;
+const mapStateToProps = (state) => ({
+  current: state.log.current,
+});
+
+export default connect(mapStateToProps, { updateLog })(EditLogModal);
