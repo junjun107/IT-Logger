@@ -1,4 +1,3 @@
-import { setLoading } from '../actions/techActions';
 import {
   GET_TECHS,
   ADD_TECH,
@@ -22,7 +21,10 @@ export default (state = initialState, action) => {
         loading: false,
       };
     case ADD_TECH:
-      return {};
+      return {
+        ...state,
+        techs: [...state.techs, action.payload],
+      };
     case DELETE_TECH:
       return {};
     case TECHS_ERROR:
