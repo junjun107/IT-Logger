@@ -12,3 +12,5 @@ This project demonstrate calling the backend API from withini React-Redux such a
     redux
     materialize-css
     json-server
+
+![alt text](https://raw.githubusercontent.com/junjun107/IT-Logger/master/demo.png)
